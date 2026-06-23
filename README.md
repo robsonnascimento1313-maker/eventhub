@@ -30,3 +30,6 @@ Permitir que empresas solicitem serviços (buffet, som, decoração etc.) direta
 3. Iniciar servidor: `npm run start`
 
 ## Variáveis de ambiente
+
+## Status
+🚀 Projeto em desenvolvimento inicial.
