@@ -10,8 +10,8 @@ html, body {
 }
 
 body {
-  color: #101828;
-  background: #f6f7f9;
+  color: #e8eaf2;
+  background: #0a0b10;
   letter-spacing: -0.008em;
 }
 
@@ -25,10 +25,14 @@ h1, h2, h3 {
 }
 
 ::selection {
-  background: #e0e7ff;
+  background: rgba(124, 92, 250, 0.35);
+}
+
+input::placeholder, textarea::placeholder {
+  color: #5b6072;
 }
 
 /* Scrollbar discreta */
 ::-webkit-scrollbar { height: 8px; width: 8px; }
-::-webkit-scrollbar-thumb { background: #cbd2e0; border-radius: 8px; }
-::-webkit-scrollbar-thumb:hover { background: #aab3c5; }
+::-webkit-scrollbar-thumb { background: #2a2e3e; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3f52; }

@@ -55,10 +55,10 @@ export default function FornecedoresPage() {
     <Layout>
       <div className="p-8 max-w-7xl">
         <div className="mb-7">
-          <h1 className="text-[28px] font-extrabold text-gray-900 tracking-tight">
+          <h1 className="text-[28px] font-extrabold text-gray-50 tracking-tight">
             Encontre o fornecedor certo
           </h1>
-          <p className="text-gray-500 mt-1.5">
+          <p className="text-gray-400 mt-1.5">
             {providers.length} fornecedores verificados · quem responde rápido aparece primeiro
           </p>
         </div>
@@ -70,7 +70,7 @@ export default function FornecedoresPage() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Busque por serviço, ex.: buffet, DJ, decoração..."
-            className="w-full pl-11 pr-4 py-3.5 bg-white border border-gray-200/80 rounded-2xl text-sm shadow-card focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full pl-11 pr-4 py-3.5 bg-surface border border-edge rounded-2xl text-sm shadow-card focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -81,7 +81,7 @@ export default function FornecedoresPage() {
             className={`shrink-0 px-4 py-1.5 rounded-full text-[13px] font-bold transition flex items-center gap-1.5 ${
               fastOnly
                 ? 'bg-amber-400 text-amber-950 shadow-sm'
-                : 'bg-white border border-amber-300/70 text-amber-700 hover:bg-amber-50'
+                : 'bg-surface border border-amber-400/30 text-amber-300 hover:bg-amber-400/10'
             }`}
           >
             <Icon name="bolt" size={13} filled strokeWidth={0} /> Resposta rápida
@@ -90,7 +90,7 @@ export default function FornecedoresPage() {
           <button
             onClick={() => setActiveCat('todos')}
             className={`shrink-0 px-4 py-1.5 rounded-full text-[13px] font-semibold transition ${
-              activeCat === 'todos' ? 'bg-ink-900 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400'
+              activeCat === 'todos' ? 'bg-gray-100 text-gray-900' : 'bg-surface border border-edge text-gray-300 hover:border-gray-500'
             }`}
           >
             Todos
@@ -100,7 +100,7 @@ export default function FornecedoresPage() {
               key={cat.id}
               onClick={() => setActiveCat(cat.id)}
               className={`shrink-0 px-4 py-1.5 rounded-full text-[13px] font-semibold transition flex items-center gap-1.5 ${
-                activeCat === cat.id ? 'bg-ink-900 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-400'
+                activeCat === cat.id ? 'bg-gray-100 text-gray-900' : 'bg-surface border border-edge text-gray-300 hover:border-gray-500'
               }`}
             >
               <Icon name={cat.icon} size={14} /> {cat.name}
@@ -116,7 +116,7 @@ export default function FornecedoresPage() {
             <select
               value={sort}
               onChange={(e) => setSort(e.target.value as SortKey)}
-              className="bg-white border border-gray-200 rounded-lg px-2.5 py-1.5 text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="bg-surface border border-edge rounded-lg px-2.5 py-1.5 text-gray-200 font-medium focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="relevancia">Relevância</option>
               <option value="resposta">Resposta mais rápida</option>
@@ -134,9 +134,9 @@ export default function FornecedoresPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-2xl border border-gray-200/60 shadow-card p-12 text-center">
-            <span className="inline-flex text-gray-300"><Icon name="search" size={40} strokeWidth={1.5} /></span>
-            <p className="text-gray-500 mt-3">Nenhum fornecedor encontrado para esta busca.</p>
+          <div className="bg-surface rounded-2xl border border-edge shadow-card p-12 text-center">
+            <span className="inline-flex text-gray-600"><Icon name="search" size={40} strokeWidth={1.5} /></span>
+            <p className="text-gray-400 mt-3">Nenhum fornecedor encontrado para esta busca.</p>
           </div>
         )}
       </div>
@@ -150,7 +150,7 @@ export default function FornecedoresPage() {
       )}
 
       {toast && (
-        <div className="fixed bottom-6 right-6 bg-ink-900 text-white px-5 py-3.5 rounded-2xl shadow-card-hover text-sm flex items-center gap-3 z-50">
+        <div className="fixed bottom-6 right-6 bg-surface-3 border border-edge text-white px-5 py-3.5 rounded-2xl shadow-card-hover text-sm flex items-center gap-3 z-50">
           <Icon name="check-circle" size={16} className="text-emerald-400" /> {toast}
           <button onClick={() => router.push('/pedidos')} className="underline text-primary-300 font-semibold">
             Ver pedidos

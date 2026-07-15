@@ -45,13 +45,13 @@ export interface Provider {
 }
 
 export const categories: Category[] = [
-  { id: 'buffet',      name: 'Buffet',            icon: 'utensils', color: 'bg-amber-100 text-amber-700' },
-  { id: 'som',         name: 'Som e Iluminação',  icon: 'music',    color: 'bg-violet-100 text-violet-700' },
-  { id: 'decoracao',   name: 'Decoração',         icon: 'palette',  color: 'bg-pink-100 text-pink-700' },
-  { id: 'fotografia',  name: 'Fotografia',        icon: 'camera',   color: 'bg-sky-100 text-sky-700' },
-  { id: 'seguranca',   name: 'Segurança',         icon: 'shield',   color: 'bg-slate-200 text-slate-700' },
-  { id: 'transporte',  name: 'Transporte',        icon: 'truck',    color: 'bg-emerald-100 text-emerald-700' },
-  { id: 'espaco',      name: 'Espaços',           icon: 'landmark', color: 'bg-indigo-100 text-indigo-700' },
+  { id: 'buffet',      name: 'Buffet',            icon: 'utensils', color: 'bg-amber-400/10 text-amber-300' },
+  { id: 'som',         name: 'Som e Iluminação',  icon: 'music',    color: 'bg-violet-400/10 text-violet-300' },
+  { id: 'decoracao',   name: 'Decoração',         icon: 'palette',  color: 'bg-pink-400/10 text-pink-300' },
+  { id: 'fotografia',  name: 'Fotografia',        icon: 'camera',   color: 'bg-sky-400/10 text-sky-300' },
+  { id: 'seguranca',   name: 'Segurança',         icon: 'shield',   color: 'bg-slate-400/10 text-slate-300' },
+  { id: 'transporte',  name: 'Transporte',        icon: 'truck',    color: 'bg-emerald-400/10 text-emerald-300' },
+  { id: 'espaco',      name: 'Espaços',           icon: 'landmark', color: 'bg-indigo-400/10 text-indigo-300' },
 ];
 
 export const providers: Provider[] = [

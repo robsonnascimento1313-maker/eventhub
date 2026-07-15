@@ -8,20 +8,20 @@ import { providers, categoryById, formatBRL } from '../services/catalog';
 import Icon, { IconName } from '../components/Icon';
 
 const statusStyle: Record<string, string> = {
-  pendente:   'bg-amber-100 text-amber-700',
-  confirmado: 'bg-emerald-100 text-emerald-700',
-  concluido:  'bg-blue-100 text-blue-700',
-  cancelado:  'bg-gray-100 text-gray-500',
+  pendente:   'bg-amber-400/10 text-amber-300',
+  confirmado: 'bg-emerald-400/10 text-emerald-300',
+  concluido:  'bg-sky-400/10 text-sky-300',
+  cancelado:  'bg-surface-3 text-gray-400',
 };
 
 function StatCard({ value, label, icon, color }: { value: string; label: string; icon: IconName; color: string }) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-5">
+    <div className="bg-surface rounded-xl shadow-sm border border-edge p-5">
       <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${color} mb-3`}>
         <Icon name={icon} size={20} />
       </div>
-      <p className="text-2xl font-bold text-gray-900 tabular">{value}</p>
-      <p className="text-sm text-gray-500 mt-1">{label}</p>
+      <p className="text-2xl font-bold text-gray-50 tabular">{value}</p>
+      <p className="text-sm text-gray-400 mt-1">{label}</p>
     </div>
   );
 }
@@ -49,34 +49,34 @@ function EmpresaDashboard({ user }: { user: User | null }) {
         </div>
         <button
           onClick={() => router.push('/fornecedores')}
-          className="bg-white text-primary-700 font-semibold px-6 py-3 rounded-xl hover:bg-primary-50 transition whitespace-nowrap"
+          className="bg-white text-primary-800 font-bold px-6 py-3 rounded-xl hover:bg-gray-100 transition whitespace-nowrap"
         >
           + Solicitar serviço
         </button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <StatCard value={String(stats.eventos)} label="Eventos Ativos" icon="calendar" color="bg-blue-50 text-blue-700" />
-        <StatCard value={String(stats.fornecedores)} label="Fornecedores" icon="building" color="bg-violet-50 text-violet-700" />
-        <StatCard value={String(stats.pedidosPendentes)} label="Pedidos Pendentes" icon="clipboard" color="bg-amber-50 text-amber-700" />
-        <StatCard value={formatBRL(stats.receita)} label="Receita Contratada" icon="dollar" color="bg-emerald-50 text-emerald-700" />
+        <StatCard value={String(stats.eventos)} label="Eventos Ativos" icon="calendar" color="bg-sky-400/10 text-sky-300" />
+        <StatCard value={String(stats.fornecedores)} label="Fornecedores" icon="building" color="bg-violet-400/10 text-violet-300" />
+        <StatCard value={String(stats.pedidosPendentes)} label="Pedidos Pendentes" icon="clipboard" color="bg-amber-400/10 text-amber-300" />
+        <StatCard value={formatBRL(stats.receita)} label="Receita Contratada" icon="dollar" color="bg-emerald-400/10 text-emerald-300" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-6">
+        <div className="bg-surface rounded-xl shadow-sm border border-edge p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Pedidos recentes</h2>
-            <button onClick={() => router.push('/pedidos')} className="text-sm text-primary-600 hover:underline">Ver todos</button>
+            <h2 className="text-lg font-semibold text-gray-50">Pedidos recentes</h2>
+            <button onClick={() => router.push('/pedidos')} className="text-sm text-primary-400 hover:underline">Ver todos</button>
           </div>
           {recent.length > 0 ? (
             <div className="space-y-3">
               {recent.map((p) => {
                 const cat = categoryById(p.categoryId);
                 return (
-                  <div key={p.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
+                  <div key={p.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-surface-3'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">{p.providerName}</p>
+                      <p className="text-sm font-medium text-gray-50 truncate">{p.providerName}</p>
                       <p className="text-xs text-gray-400 truncate">{p.eventName}</p>
                     </div>
                     <span className={`text-xs px-2 py-1 rounded-full font-medium capitalize ${statusStyle[p.status]}`}>{p.status}</span>
@@ -89,22 +89,22 @@ function EmpresaDashboard({ user }: { user: User | null }) {
           )}
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-6">
+        <div className="bg-surface rounded-xl shadow-sm border border-edge p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Fornecedores em destaque</h2>
-            <button onClick={() => router.push('/fornecedores')} className="text-sm text-primary-600 hover:underline">Explorar</button>
+            <h2 className="text-lg font-semibold text-gray-50">Fornecedores em destaque</h2>
+            <button onClick={() => router.push('/fornecedores')} className="text-sm text-primary-400 hover:underline">Explorar</button>
           </div>
           <div className="space-y-3">
             {featured.map((p) => {
               const cat = categoryById(p.categoryId);
               return (
-                <div key={p.id} onClick={() => router.push('/fornecedores')} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
+                <div key={p.id} onClick={() => router.push('/fornecedores')} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 cursor-pointer">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-surface-3'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
+                    <p className="text-sm font-medium text-gray-50 truncate">{p.name}</p>
                     <Stars rating={p.rating} />
                   </div>
-                  <span className="text-sm font-semibold text-gray-700 tabular">{formatBRL(p.priceFrom)}</span>
+                  <span className="text-sm font-semibold text-gray-200 tabular">{formatBRL(p.priceFrom)}</span>
                 </div>
               );
             })}
@@ -140,36 +140,36 @@ function FornecedorDashboard() {
         </div>
         <button
           onClick={() => router.push('/oportunidades')}
-          className="bg-white text-orange-700 font-semibold px-6 py-3 rounded-xl hover:bg-amber-50 transition whitespace-nowrap"
+          className="bg-white text-orange-700 font-bold px-6 py-3 rounded-xl hover:bg-orange-50 transition whitespace-nowrap"
         >
           Ver oportunidades
         </button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <StatCard value={String(abertas.length)} label="Leads abertos" icon="zap" color="bg-amber-50 text-amber-700" />
-        <StatCard value={String(fechados.length)} label="Contratos fechados" icon="check-circle" color="bg-emerald-50 text-emerald-700" />
-        <StatCard value={String(pedidos.filter((p) => p.amount > 0).length)} label="Propostas enviadas" icon="mail" color="bg-blue-50 text-blue-700" />
-        <StatCard value={formatBRL(faturamento)} label="Faturamento (repasse)" icon="wallet" color="bg-violet-50 text-violet-700" />
+        <StatCard value={String(abertas.length)} label="Leads abertos" icon="zap" color="bg-amber-400/10 text-amber-300" />
+        <StatCard value={String(fechados.length)} label="Contratos fechados" icon="check-circle" color="bg-emerald-400/10 text-emerald-300" />
+        <StatCard value={String(pedidos.filter((p) => p.amount > 0).length)} label="Propostas enviadas" icon="mail" color="bg-sky-400/10 text-sky-300" />
+        <StatCard value={formatBRL(faturamento)} label="Faturamento (repasse)" icon="wallet" color="bg-violet-400/10 text-violet-300" />
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-6">
+      <div className="bg-surface rounded-xl shadow-sm border border-edge p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">Leads recentes</h2>
-          <button onClick={() => router.push('/oportunidades')} className="text-sm text-primary-600 hover:underline">Ver todos</button>
+          <h2 className="text-lg font-semibold text-gray-50">Leads recentes</h2>
+          <button onClick={() => router.push('/oportunidades')} className="text-sm text-primary-400 hover:underline">Ver todos</button>
         </div>
         {abertas.length > 0 ? (
           <div className="space-y-3">
             {abertas.slice(0, 5).map((p) => {
               const cat = categoryById(p.categoryId);
               return (
-                <div key={p.id} onClick={() => router.push('/oportunidades')} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
+                <div key={p.id} onClick={() => router.push('/oportunidades')} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 cursor-pointer">
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-surface-3'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-gray-900 truncate">{p.eventName}</p>
+                    <p className="text-sm font-medium text-gray-50 truncate">{p.eventName}</p>
                     <p className="text-xs text-gray-400 truncate">{cat?.name} · {p.guests} convidados</p>
                   </div>
-                  <span className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full font-medium">Responder</span>
+                  <span className="text-xs bg-amber-400/10 text-amber-300 px-2 py-1 rounded-full font-medium">Responder</span>
                 </div>
               );
             })}
@@ -196,8 +196,8 @@ export default function DashboardPage() {
     <Layout>
       <div className="p-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Olá, {user?.name?.split(' ')[0] ?? ''} 👋</h1>
-          <p className="text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-gray-50">Olá, {user?.name?.split(' ')[0] ?? ''} 👋</h1>
+          <p className="text-gray-400 mt-1">
             {isFornecedor ? 'Acompanhe seus leads e propostas.' : 'Aqui está o resumo da sua operação de eventos.'}
           </p>
         </div>

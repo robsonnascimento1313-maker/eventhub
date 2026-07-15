@@ -26,7 +26,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-900 to-primary-700 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-ground bg-[radial-gradient(ellipse_at_top,rgba(124,92,250,.18),transparent_60%)] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white flex items-center justify-center gap-2.5">
@@ -35,11 +35,11 @@ export default function LoginPage() {
             </span>
             EventHub
           </h1>
-          <p className="text-blue-200 mt-2">Plataforma B2B para eventos corporativos</p>
+          <p className="text-gray-400 mt-2">Plataforma B2B para eventos corporativos</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Entrar na plataforma</h2>
+        <div className="bg-surface rounded-2xl shadow-2xl p-8">
+          <h2 className="text-2xl font-bold text-gray-100 mb-6">Entrar na plataforma</h2>
 
           {error && (
             <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
@@ -49,26 +49,26 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Email</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="seu@email.com"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+                className="w-full px-4 py-3 bg-surface-3 border border-edge rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+              <label className="block text-sm font-medium text-gray-200 mb-1">Senha</label>
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+                className="w-full px-4 py-3 bg-surface-3 border border-edge rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
               />
             </div>
 
@@ -81,19 +81,19 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-500 mt-6">
+          <p className="text-center text-sm text-gray-400 mt-6">
             Não tem conta?{' '}
             <button
               onClick={() => router.push('/register')}
-              className="text-primary-600 hover:underline font-medium"
+              className="text-primary-400 hover:underline font-medium"
             >
               Criar conta
             </button>
           </p>
 
-          <div className="mt-5 p-3 bg-gray-50 border border-gray-100 rounded-lg text-center">
+          <div className="mt-5 p-3 bg-ground border border-edge-soft rounded-lg text-center">
             <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">Conta demo</p>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-300 mt-1">
               <span className="font-mono">demo@eventhub.com</span> · <span className="font-mono">demo123</span>
             </p>
           </div>

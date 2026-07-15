@@ -14,10 +14,10 @@ const filters: { key: string; label: string }[] = [
 ];
 
 const statusStyle: Record<string, string> = {
-  pendente:   'bg-amber-100 text-amber-700',
-  confirmado: 'bg-emerald-100 text-emerald-700',
-  concluido:  'bg-blue-100 text-blue-700',
-  cancelado:  'bg-gray-100 text-gray-500',
+  pendente:   'bg-amber-400/10 text-amber-300',
+  confirmado: 'bg-emerald-400/10 text-emerald-300',
+  concluido:  'bg-sky-400/10 text-sky-300',
+  cancelado:  'bg-surface-3 text-gray-400',
 };
 
 export default function PedidosPage() {
@@ -57,8 +57,8 @@ export default function PedidosPage() {
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Meus pedidos</h1>
-            <p className="text-gray-500 mt-1">Acompanhe solicitações, propostas e contratações</p>
+            <h1 className="text-2xl font-bold text-gray-100">Meus pedidos</h1>
+            <p className="text-gray-400 mt-1">Acompanhe solicitações, propostas e contratações</p>
           </div>
           <button
             onClick={() => router.push('/fornecedores')}
@@ -76,7 +76,7 @@ export default function PedidosPage() {
                 key={f.key}
                 onClick={() => setActive(f.key)}
                 className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-medium transition ${
-                  active === f.key ? 'bg-primary-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-primary-400'
+                  active === f.key ? 'bg-primary-600 text-white' : 'bg-surface border border-edge text-gray-300 hover:border-primary-500'
                 }`}
               >
                 {f.label} {count > 0 && <span className="opacity-70">({count})</span>}
@@ -90,31 +90,31 @@ export default function PedidosPage() {
             {list.map((p) => {
               const cat = categoryById(p.categoryId);
               return (
-                <div key={p.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+                <div key={p.id} className="bg-surface rounded-xl border border-edge-soft shadow-sm p-5">
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${cat?.color ?? 'bg-gray-100'}`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${cat?.color ?? 'bg-surface-3'}`}>
                       {cat && <Icon name={cat.icon} size={22} />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-bold text-gray-800">{p.providerName}</h3>
+                        <h3 className="font-bold text-gray-100">{p.providerName}</h3>
                         <span className={`text-xs px-2 py-0.5 rounded-full font-medium capitalize ${statusStyle[p.status]}`}>
                           {p.status}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-500 mt-0.5">{p.eventName}</p>
+                      <p className="text-sm text-gray-400 mt-0.5">{p.eventName}</p>
                       {p.details && <p className="text-sm text-gray-400 mt-2">{p.details}</p>}
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400">
                         {p.date && <span className="inline-flex items-center gap-1"><Icon name="calendar" size={13} /> {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
                         {p.guests > 0 && <span className="inline-flex items-center gap-1"><Icon name="users" size={13} /> {p.guests} convidados</span>}
                         <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals} proposta(s) recebida(s)</span>
-                        {p.amount > 0 && <span className="text-gray-700 font-semibold">{formatBRL(p.amount)}</span>}
+                        {p.amount > 0 && <span className="text-gray-200 font-semibold">{formatBRL(p.amount)}</span>}
                       </div>
                     </div>
                   </div>
 
                   {/* Ações por status */}
-                  <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-50">
+                  <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-edge-soft">
                     {p.status === 'pendente' && (
                       <>
                         <button
@@ -125,7 +125,7 @@ export default function PedidosPage() {
                         </button>
                         <button
                           onClick={() => handleStatus(p, 'cancelado')}
-                          className="px-4 py-2 bg-white border border-gray-200 text-gray-500 text-sm rounded-lg hover:bg-gray-50 transition"
+                          className="px-4 py-2 bg-surface border border-edge text-gray-400 text-sm rounded-lg hover:bg-white/5 transition"
                         >
                           Cancelar
                         </button>
@@ -141,7 +141,7 @@ export default function PedidosPage() {
                         </button>
                         <button
                           onClick={() => handleStatus(p, 'concluido')}
-                          className="px-4 py-2 bg-white border border-gray-200 text-gray-600 text-sm rounded-lg hover:bg-gray-50 transition"
+                          className="px-4 py-2 bg-surface border border-edge text-gray-300 text-sm rounded-lg hover:bg-white/5 transition"
                         >
                           Marcar como concluído
                         </button>
@@ -153,7 +153,7 @@ export default function PedidosPage() {
                     {p.status === 'cancelado' && (
                       <button
                         onClick={() => handleStatus(p, 'pendente')}
-                        className="px-4 py-2 bg-white border border-gray-200 text-gray-600 text-sm rounded-lg hover:bg-gray-50 transition"
+                        className="px-4 py-2 bg-surface border border-edge text-gray-300 text-sm rounded-lg hover:bg-white/5 transition"
                       >
                         Reabrir pedido
                       </button>
@@ -164,9 +164,9 @@ export default function PedidosPage() {
             })}
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-            <span className="inline-flex text-gray-300"><Icon name="clipboard" size={44} strokeWidth={1.5} /></span>
-            <h3 className="text-lg font-semibold text-gray-700 mt-4">Nenhum pedido aqui</h3>
+          <div className="bg-surface rounded-xl shadow-sm border border-edge-soft p-12 text-center">
+            <span className="inline-flex text-gray-600"><Icon name="clipboard" size={44} strokeWidth={1.5} /></span>
+            <h3 className="text-lg font-semibold text-gray-200 mt-4">Nenhum pedido aqui</h3>
             <p className="text-gray-400 text-sm mt-2">Solicite um orçamento na vitrine de fornecedores.</p>
             <button
               onClick={() => router.push('/fornecedores')}
