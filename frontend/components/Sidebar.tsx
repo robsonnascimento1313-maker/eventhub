@@ -20,8 +20,8 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="w-64 bg-slate-900 text-white flex flex-col min-h-screen border-r border-slate-800">
-      <div className="px-6 py-6 border-b border-slate-800">
+    <aside className="w-64 bg-ink-900 text-white flex flex-col min-h-screen border-r border-ink-700/50">
+      <div className="px-6 py-6 border-b border-ink-700/50">
         <h1 className="text-lg font-extrabold tracking-tight flex items-center gap-2">
           <span className="w-7 h-7 rounded-lg bg-primary-600 flex items-center justify-center">
             <Icon name="bolt" size={16} filled className="text-white" strokeWidth={0} />
@@ -40,10 +40,10 @@ export default function Sidebar() {
             <button
               key={item.href}
               onClick={() => router.push(item.href)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-colors ${
                 active
                   ? 'bg-primary-600 text-white shadow-sm'
-                  : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+                  : 'text-slate-400 hover:bg-ink-800 hover:text-white'
               }`}
             >
               <Icon name={item.icon} size={18} strokeWidth={active ? 2.25 : 2} />
@@ -53,7 +53,7 @@ export default function Sidebar() {
         })}
       </nav>
 
-      <div className="px-4 py-4 border-t border-slate-800">
+      <div className="px-4 py-4 border-t border-ink-700/50">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center text-sm font-bold">
             {user?.name?.[0]?.toUpperCase() ?? 'U'}

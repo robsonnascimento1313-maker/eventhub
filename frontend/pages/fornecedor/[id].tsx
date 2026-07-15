@@ -4,7 +4,7 @@ import Layout from '../../components/Layout';
 import Stars from '../../components/Stars';
 import Icon from '../../components/Icon';
 import SolicitarModal from '../../components/SolicitarModal';
-import { providerById, categoryById, reviewsFor, profileLabel, formatBRL } from '../../services/catalog';
+import { providerById, categoryById, reviewsFor, profileLabel, formatBRL, isTopResponder } from '../../services/catalog';
 
 export default function ProviderProfilePage() {
   const router = useRouter();
@@ -58,6 +58,11 @@ export default function ProviderProfilePage() {
                   <Icon name={provider.profileType === 'empresa' ? 'building' : 'user'} size={12} />
                   {profileLabel(provider.profileType)}
                 </span>
+                {isTopResponder(provider) && (
+                  <span className="inline-flex items-center gap-1 text-xs bg-amber-400/15 text-amber-700 px-2 py-0.5 rounded-full font-bold border border-amber-300/60">
+                    <Icon name="bolt" size={11} filled strokeWidth={0} /> Top resposta
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center gap-2 mt-2">

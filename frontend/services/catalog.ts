@@ -259,6 +259,22 @@ export function profileLabel(type: ProfileType): string {
   return type === 'empresa' ? 'Empresa' : 'Profissional autônomo';
 }
 
+// Velocidade de resposta (modelo Thumbtack: responder rápido é recompensado).
+export function responseHours(p: Provider): number {
+  const m = p.responseTime.match(/(\d+)/);
+  return m ? Number(m[1]) : 24;
+}
+
+// "Top resposta": responde em até 1h — o selo mais valioso da vitrine.
+export function isTopResponder(p: Provider): boolean {
+  return responseHours(p) <= 1;
+}
+
+// Resposta rápida: até 3h — ainda ganha destaque verde.
+export function isFastResponder(p: Provider): boolean {
+  return responseHours(p) <= 3;
+}
+
 export function formatBRL(value: number): string {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', minimumFractionDigits: 0 });
 }
