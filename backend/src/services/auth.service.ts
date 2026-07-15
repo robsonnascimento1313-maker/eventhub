@@ -1,34 +1,22 @@
 import { Injectable, UnauthorizedException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as bcrypt from 'bcrypt';
-import { PrismaService } from '../database/prisma.service';
+import { MemoryStore } from '../database/memory.store';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prisma: PrismaService,
+    private readonly store: MemoryStore,
     private readonly jwtService: JwtService,
   ) {}
 
   async register(data: { name: string; email: string; password: string; role: string }) {
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email: data.email },
-    });
+    const existingUser = this.store.findByEmail(data.email);
 
     if (existingUser) {
       throw new ConflictException('Email já cadastrado');
     }
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-
-    const user = await this.prisma.user.create({
-      data: {
-        name: data.name,
-        email: data.email,
-        password: hashedPassword,
-        role: data.role,
-      },
-    });
+    const user = this.store.createUser(data);
 
     return {
       id: user.id,
@@ -39,15 +27,13 @@ export class AuthService {
   }
 
   async login(email: string, password: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { email },
-    });
+    const user = this.store.findByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException('Credenciais inválidas');
     }
 
-    const passwordValid = await bcrypt.compare(password, user.password);
+    const passwordValid = this.store.verifyPassword(password, user.passwordHash);
 
     if (!passwordValid) {
       throw new UnauthorizedException('Credenciais inválidas');
