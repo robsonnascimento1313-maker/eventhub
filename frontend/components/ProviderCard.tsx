@@ -1,4 +1,5 @@
-import { Provider, categoryById, formatBRL } from '../services/catalog';
+import { useRouter } from 'next/router';
+import { Provider, categoryById, formatBRL, profileLabel } from '../services/catalog';
 import Stars from './Stars';
 import Icon from './Icon';
 
@@ -8,10 +9,14 @@ interface Props {
 }
 
 export default function ProviderCard({ provider, onSolicitar }: Props) {
+  const router = useRouter();
   const category = categoryById(provider.categoryId);
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-200/70 shadow-sm hover:shadow-lg hover:border-primary-200 transition flex flex-col overflow-hidden">
+    <div
+      onClick={() => router.push(`/fornecedor/${provider.id}`)}
+      className="bg-white rounded-2xl border border-gray-200/70 shadow-sm hover:shadow-lg hover:border-primary-200 transition flex flex-col overflow-hidden cursor-pointer"
+    >
       <div className="p-5 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 min-w-0">
@@ -25,7 +30,9 @@ export default function ProviderCard({ provider, onSolicitar }: Props) {
                   <span title="Verificado" className="text-primary-600 shrink-0"><Icon name="check-circle" size={15} /></span>
                 )}
               </div>
-              <p className="text-xs text-gray-400">{category?.name}</p>
+              <p className="text-xs text-gray-400">
+                {category?.name} · {profileLabel(provider.profileType)}
+              </p>
             </div>
           </div>
           {/* Tempo de resposta em DESTAQUE */}
@@ -61,7 +68,7 @@ export default function ProviderCard({ provider, onSolicitar }: Props) {
           <p className="font-bold text-gray-900 tabular">{formatBRL(provider.priceFrom)}</p>
         </div>
         <button
-          onClick={() => onSolicitar(provider)}
+          onClick={(e) => { e.stopPropagation(); onSolicitar(provider); }}
           className="px-4 py-2 bg-primary-600 text-white text-sm font-semibold rounded-lg hover:bg-primary-700 transition"
         >
           Solicitar orçamento
