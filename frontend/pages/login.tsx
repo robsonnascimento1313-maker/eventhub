@@ -84,6 +84,13 @@ export default function LoginPage() {
               Criar conta
             </button>
           </p>
+
+          <div className="mt-5 p-3 bg-gray-50 border border-gray-100 rounded-lg text-center">
+            <p className="text-xs text-gray-400 uppercase tracking-wide font-medium">Conta demo</p>
+            <p className="text-sm text-gray-600 mt-1">
+              <span className="font-mono">demo@eventhub.com</span> · <span className="font-mono">demo123</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

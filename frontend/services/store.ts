@@ -111,6 +111,14 @@ export function updatePedidoStatus(id: string, status: PedidoStatus, amount?: nu
   write(PEDIDOS_KEY, all);
 }
 
+// Lado do FORNECEDOR: responde a um lead com uma proposta de preço.
+export function enviarProposta(id: string, amount: number): void {
+  const all = read<Pedido>(PEDIDOS_KEY).map((p) =>
+    p.id === id ? { ...p, amount, proposals: p.proposals + 1 } : p,
+  );
+  write(PEDIDOS_KEY, all);
+}
+
 // ---------- Eventos ----------
 export function getEventos(): Evento[] {
   return read<Evento>(EVENTOS_KEY).sort((a, b) => a.date.localeCompare(b.date));
