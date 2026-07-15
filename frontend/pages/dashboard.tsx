@@ -5,6 +5,7 @@ import Stars from '../components/Stars';
 import { getSession, User } from '../services/auth';
 import { seedOnce, getStats, getPedidos, Pedido } from '../services/store';
 import { providers, categoryById, formatBRL } from '../services/catalog';
+import Icon, { IconName } from '../components/Icon';
 
 const statusStyle: Record<string, string> = {
   pendente:   'bg-amber-100 text-amber-700',
@@ -13,10 +14,12 @@ const statusStyle: Record<string, string> = {
   cancelado:  'bg-gray-100 text-gray-500',
 };
 
-function StatCard({ value, label, icon, color }: { value: string; label: string; icon: string; color: string }) {
+function StatCard({ value, label, icon, color }: { value: string; label: string; icon: IconName; color: string }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-5">
-      <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg text-xl ${color} mb-3`}>{icon}</div>
+      <div className={`inline-flex items-center justify-center w-10 h-10 rounded-lg ${color} mb-3`}>
+        <Icon name={icon} size={20} />
+      </div>
       <p className="text-2xl font-bold text-gray-900 tabular">{value}</p>
       <p className="text-sm text-gray-500 mt-1">{label}</p>
     </div>
@@ -30,6 +33,7 @@ function EmpresaDashboard({ user }: { user: User | null }) {
   const [recent, setRecent] = useState<Pedido[]>([]);
 
   useEffect(() => {
+    seedOnce();
     setStats(getStats());
     setRecent(getPedidos().slice(0, 4));
   }, []);
@@ -52,10 +56,10 @@ function EmpresaDashboard({ user }: { user: User | null }) {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <StatCard value={String(stats.eventos)} label="Eventos Ativos" icon="📅" color="bg-blue-50 text-blue-700" />
-        <StatCard value={String(stats.fornecedores)} label="Fornecedores" icon="🏢" color="bg-violet-50 text-violet-700" />
-        <StatCard value={String(stats.pedidosPendentes)} label="Pedidos Pendentes" icon="📋" color="bg-amber-50 text-amber-700" />
-        <StatCard value={formatBRL(stats.receita)} label="Receita Contratada" icon="💰" color="bg-emerald-50 text-emerald-700" />
+        <StatCard value={String(stats.eventos)} label="Eventos Ativos" icon="calendar" color="bg-blue-50 text-blue-700" />
+        <StatCard value={String(stats.fornecedores)} label="Fornecedores" icon="building" color="bg-violet-50 text-violet-700" />
+        <StatCard value={String(stats.pedidosPendentes)} label="Pedidos Pendentes" icon="clipboard" color="bg-amber-50 text-amber-700" />
+        <StatCard value={formatBRL(stats.receita)} label="Receita Contratada" icon="dollar" color="bg-emerald-50 text-emerald-700" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -70,7 +74,7 @@ function EmpresaDashboard({ user }: { user: User | null }) {
                 const cat = categoryById(p.categoryId);
                 return (
                   <div key={p.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat?.icon}</div>
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{p.providerName}</p>
                       <p className="text-xs text-gray-400 truncate">{p.eventName}</p>
@@ -95,7 +99,7 @@ function EmpresaDashboard({ user }: { user: User | null }) {
               const cat = categoryById(p.categoryId);
               return (
                 <div key={p.id} onClick={() => router.push('/fornecedores')} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat?.icon}</div>
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">{p.name}</p>
                     <Stars rating={p.rating} />
@@ -117,6 +121,7 @@ function FornecedorDashboard() {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
 
   useEffect(() => {
+    seedOnce();
     setPedidos(getPedidos());
   }, []);
 
@@ -142,10 +147,10 @@ function FornecedorDashboard() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <StatCard value={String(abertas.length)} label="Leads abertos" icon="⚡" color="bg-amber-50 text-amber-700" />
-        <StatCard value={String(fechados.length)} label="Contratos fechados" icon="✅" color="bg-emerald-50 text-emerald-700" />
-        <StatCard value={String(pedidos.filter((p) => p.amount > 0).length)} label="Propostas enviadas" icon="📨" color="bg-blue-50 text-blue-700" />
-        <StatCard value={formatBRL(faturamento)} label="Faturamento (repasse)" icon="💰" color="bg-violet-50 text-violet-700" />
+        <StatCard value={String(abertas.length)} label="Leads abertos" icon="zap" color="bg-amber-50 text-amber-700" />
+        <StatCard value={String(fechados.length)} label="Contratos fechados" icon="check-circle" color="bg-emerald-50 text-emerald-700" />
+        <StatCard value={String(pedidos.filter((p) => p.amount > 0).length)} label="Propostas enviadas" icon="mail" color="bg-blue-50 text-blue-700" />
+        <StatCard value={formatBRL(faturamento)} label="Faturamento (repasse)" icon="wallet" color="bg-violet-50 text-violet-700" />
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-6">
@@ -159,7 +164,7 @@ function FornecedorDashboard() {
               const cat = categoryById(p.categoryId);
               return (
                 <div key={p.id} onClick={() => router.push('/oportunidades')} className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer">
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat?.icon}</div>
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>{cat && <Icon name={cat.icon} size={18} />}</div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">{p.eventName}</p>
                     <p className="text-xs text-gray-400 truncate">{cat?.name} · {p.guests} convidados</p>

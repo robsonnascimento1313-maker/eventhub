@@ -1,5 +1,6 @@
 import { Provider, categoryById, formatBRL } from '../services/catalog';
 import Stars from './Stars';
+import Icon from './Icon';
 
 interface Props {
   provider: Provider;
@@ -14,20 +15,23 @@ export default function ProviderCard({ provider, onSolicitar }: Props) {
       <div className="p-5 flex-1">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3 min-w-0">
-            <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${category?.color ?? 'bg-gray-100'}`}>
-              {category?.icon}
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${category?.color ?? 'bg-gray-100'}`}>
+              {category && <Icon name={category.icon} size={22} strokeWidth={2} />}
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
                 <h3 className="font-bold text-gray-900 truncate">{provider.name}</h3>
-                {provider.verified && <span title="Verificado" className="text-primary-600 text-sm shrink-0">✓</span>}
+                {provider.verified && (
+                  <span title="Verificado" className="text-primary-600 shrink-0"><Icon name="check-circle" size={15} /></span>
+                )}
               </div>
               <p className="text-xs text-gray-400">{category?.name}</p>
             </div>
           </div>
           {/* Tempo de resposta em DESTAQUE */}
           <span className="shrink-0 inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-100">
-            ⚡ {provider.responseTime.replace('responde em ', '')}
+            <Icon name="bolt" size={12} filled strokeWidth={0} />
+            {provider.responseTime.replace('responde em ', '')}
           </span>
         </div>
 
@@ -46,8 +50,8 @@ export default function ProviderCard({ provider, onSolicitar }: Props) {
           ))}
         </div>
 
-        <div className="flex items-center gap-2 mt-4 text-xs text-gray-400">
-          <span>📍 {provider.location}</span>
+        <div className="flex items-center gap-1.5 mt-4 text-xs text-gray-400">
+          <Icon name="pin" size={13} /> {provider.location}
         </div>
       </div>
 

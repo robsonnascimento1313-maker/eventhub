@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { register } from '../services/auth';
+import Icon from '../components/Icon';
 
 const roles = [
   { value: 'empresa', label: 'Empresa (contratante de serviços)' },
@@ -37,7 +38,12 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-br from-primary-900 to-primary-700 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white">⚡ EventHub</h1>
+          <h1 className="text-4xl font-bold text-white flex items-center justify-center gap-2.5">
+            <span className="w-10 h-10 rounded-xl bg-white/15 flex items-center justify-center">
+              <Icon name="bolt" size={24} filled strokeWidth={0} className="text-white" />
+            </span>
+            EventHub
+          </h1>
           <p className="text-blue-200 mt-2">Crie sua conta gratuitamente</p>
         </div>
 

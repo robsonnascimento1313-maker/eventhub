@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { clearSession, getSession, User } from '../services/auth';
 import { configForRole } from '../services/roles';
+import Icon from './Icon';
 
 export default function Sidebar() {
   const router = useRouter();
@@ -22,7 +23,10 @@ export default function Sidebar() {
     <aside className="w-64 bg-slate-900 text-white flex flex-col min-h-screen border-r border-slate-800">
       <div className="px-6 py-6 border-b border-slate-800">
         <h1 className="text-lg font-extrabold tracking-tight flex items-center gap-2">
-          <span className="text-primary-400">⚡</span> EventHub
+          <span className="w-7 h-7 rounded-lg bg-primary-600 flex items-center justify-center">
+            <Icon name="bolt" size={16} filled className="text-white" strokeWidth={0} />
+          </span>
+          EventHub
         </h1>
         <p className="text-[11px] text-slate-400 mt-1 uppercase tracking-wider">
           {config.label} · {config.tagline}
@@ -42,7 +46,7 @@ export default function Sidebar() {
                   : 'text-slate-300 hover:bg-slate-800 hover:text-white'
               }`}
             >
-              <span className="text-base">{item.icon}</span>
+              <Icon name={item.icon} size={18} strokeWidth={active ? 2.25 : 2} />
               {item.label}
             </button>
           );
@@ -61,9 +65,9 @@ export default function Sidebar() {
         </div>
         <button
           onClick={handleLogout}
-          className="w-full text-left text-xs text-slate-400 hover:text-white transition-colors px-1"
+          className="w-full flex items-center gap-2 text-xs text-slate-400 hover:text-white transition-colors px-1"
         >
-          Sair →
+          <Icon name="logout" size={14} /> Sair
         </button>
       </div>
     </aside>

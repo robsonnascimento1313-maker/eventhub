@@ -3,6 +3,7 @@ import Layout from '../components/Layout';
 import { getSession } from '../services/auth';
 import { getPedidos, enviarProposta, seedOnce, Pedido } from '../services/store';
 import { categoryById, formatBRL } from '../services/catalog';
+import Icon from '../components/Icon';
 
 export default function OportunidadesPage() {
   const [pedidos, setPedidos] = useState<Pedido[]>([]);
@@ -56,8 +57,8 @@ export default function OportunidadesPage() {
               return (
                 <div key={p.id} className="bg-white rounded-2xl border border-gray-200/70 shadow-sm p-5">
                   <div className="flex items-start gap-3">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${cat?.color ?? 'bg-gray-100'}`}>
-                      {cat?.icon}
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${cat?.color ?? 'bg-gray-100'}`}>
+                      {cat && <Icon name={cat.icon} size={22} />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
@@ -73,9 +74,9 @@ export default function OportunidadesPage() {
                   {p.details && <p className="text-sm text-gray-600 mt-3">{p.details}</p>}
 
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400">
-                    {p.date && <span>📅 {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
-                    {p.guests > 0 && <span>👥 {p.guests} convidados</span>}
-                    <span>💬 {p.proposals} concorrente(s)</span>
+                    {p.date && <span className="inline-flex items-center gap-1"><Icon name="calendar" size={13} /> {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
+                    {p.guests > 0 && <span className="inline-flex items-center gap-1"><Icon name="users" size={13} /> {p.guests} convidados</span>}
+                    <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals} concorrente(s)</span>
                   </div>
 
                   <button
@@ -90,7 +91,7 @@ export default function OportunidadesPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200/70 p-12 text-center">
-            <span className="text-5xl">⚡</span>
+            <span className="inline-flex text-gray-300"><Icon name="zap" size={44} strokeWidth={1.5} /></span>
             <h3 className="text-lg font-semibold text-gray-700 mt-4">Nenhum lead aberto agora</h3>
             <p className="text-gray-400 text-sm mt-2">
               Quando uma empresa solicitar um orçamento, o pedido aparece aqui na hora.
@@ -108,7 +109,7 @@ export default function OportunidadesPage() {
                 <h3 className="font-bold text-gray-900">Enviar proposta</h3>
                 <p className="text-sm text-gray-400">{active.eventName}</p>
               </div>
-              <button onClick={() => setActive(null)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
+              <button onClick={() => setActive(null)} className="text-gray-400 hover:text-gray-600"><Icon name="x" size={20} /></button>
             </div>
             <form onSubmit={handleSend} className="p-6 space-y-4">
               <div>

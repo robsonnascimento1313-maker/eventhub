@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import ProviderCard from '../components/ProviderCard';
 import SolicitarModal from '../components/SolicitarModal';
+import Icon from '../components/Icon';
 import { providers, categories, Provider } from '../services/catalog';
 
 type SortKey = 'relevancia' | 'avaliacao' | 'preco';
@@ -48,7 +49,7 @@ export default function FornecedoresPage() {
 
         {/* Busca */}
         <div className="relative mb-5">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">🔎</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"><Icon name="search" size={18} /></span>
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
@@ -75,7 +76,7 @@ export default function FornecedoresPage() {
                 activeCat === cat.id ? 'bg-primary-600 text-white' : 'bg-white border border-gray-200 text-gray-600 hover:border-primary-400'
               }`}
             >
-              <span>{cat.icon}</span> {cat.name}
+              <Icon name={cat.icon} size={15} /> {cat.name}
             </button>
           ))}
         </div>
@@ -106,7 +107,7 @@ export default function FornecedoresPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl border border-gray-100 p-12 text-center">
-            <span className="text-4xl">🔍</span>
+            <span className="inline-flex text-gray-300"><Icon name="search" size={40} strokeWidth={1.5} /></span>
             <p className="text-gray-500 mt-3">Nenhum fornecedor encontrado para esta busca.</p>
           </div>
         )}

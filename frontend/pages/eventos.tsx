@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { getEventos, addEvento, seedOnce, Evento } from '../services/store';
+import Icon from '../components/Icon';
 
 export default function EventosPage() {
   const [eventos, setEventos] = useState<Evento[]>([]);
@@ -51,22 +52,24 @@ export default function EventosPage() {
             {eventos.map((ev) => (
               <div key={ev.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 hover:shadow-md transition">
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl">🎯</span>
+                  <span className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center">
+                    <Icon name="calendar" size={20} />
+                  </span>
                   <span className="text-xs text-gray-400">
                     {ev.date ? new Date(ev.date).toLocaleDateString('pt-BR') : 'Sem data'}
                   </span>
                 </div>
                 <h3 className="font-bold text-gray-800 mt-3">{ev.name}</h3>
                 <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
-                  {ev.location && <span>📍 {ev.location}</span>}
-                  {ev.guests > 0 && <span>👥 {ev.guests}</span>}
+                  {ev.location && <span className="inline-flex items-center gap-1"><Icon name="pin" size={13} /> {ev.location}</span>}
+                  {ev.guests > 0 && <span className="inline-flex items-center gap-1"><Icon name="users" size={13} /> {ev.guests}</span>}
                 </div>
               </div>
             ))}
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-            <span className="text-5xl">🎯</span>
+            <span className="inline-flex text-gray-300"><Icon name="calendar" size={44} strokeWidth={1.5} /></span>
             <h3 className="text-lg font-semibold text-gray-700 mt-4">Nenhum evento cadastrado</h3>
             <p className="text-gray-400 text-sm mt-2">Crie seu primeiro evento e comece a contratar serviços.</p>
             <button
@@ -84,7 +87,7 @@ export default function EventosPage() {
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
               <h3 className="font-bold text-gray-800">Novo evento</h3>
-              <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-gray-600 text-xl">×</button>
+              <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-gray-600"><Icon name="x" size={20} /></button>
             </div>
             <form onSubmit={handleCreate} className="p-6 space-y-4">
               <div>

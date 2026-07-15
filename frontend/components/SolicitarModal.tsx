@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Provider, categoryById, formatBRL } from '../services/catalog';
 import { addPedido } from '../services/store';
 import Stars from './Stars';
+import Icon from './Icon';
 
 interface Props {
   provider: Provider;
@@ -43,14 +44,16 @@ export default function SolicitarModal({ provider, onClose, onSuccess }: Props) 
       >
         {/* Header do fornecedor */}
         <div className="flex items-start gap-4 p-6 border-b border-gray-100">
-          <div className={`w-14 h-14 rounded-xl flex items-center justify-center text-2xl ${category?.color ?? 'bg-gray-100'}`}>
-            {category?.icon}
+          <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${category?.color ?? 'bg-gray-100'}`}>
+            {category && <Icon name={category.icon} size={26} />}
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2">
               <h3 className="font-bold text-gray-800">{provider.name}</h3>
               {provider.verified && (
-                <span className="text-xs bg-primary-100 text-primary-700 px-1.5 py-0.5 rounded font-medium">✓ Verificado</span>
+                <span className="inline-flex items-center gap-1 text-xs bg-primary-100 text-primary-700 px-1.5 py-0.5 rounded font-medium">
+                  <Icon name="check" size={11} strokeWidth={3} /> Verificado
+                </span>
               )}
             </div>
             <div className="mt-1"><Stars rating={provider.rating} /></div>
@@ -58,7 +61,7 @@ export default function SolicitarModal({ provider, onClose, onSuccess }: Props) 
               A partir de <span className="font-semibold text-gray-700">{formatBRL(provider.priceFrom)}</span> · {provider.responseTime}
             </p>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><Icon name="x" size={20} /></button>
         </div>
 
         {/* Formulário */}

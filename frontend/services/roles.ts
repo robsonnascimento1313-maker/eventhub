@@ -1,10 +1,12 @@
 // Configuração de navegação e identidade por papel (empresa, fornecedor, admin).
 // É isto que faz o layout mudar conforme quem está logado.
 
+import { IconName } from '../components/Icon';
+
 export interface NavItem {
   label: string;
   href: string;
-  icon: string;
+  icon: IconName;
 }
 
 export interface RoleConfig {
@@ -14,24 +16,24 @@ export interface RoleConfig {
 }
 
 const empresaNav: NavItem[] = [
-  { label: 'Início',        href: '/dashboard',    icon: '🏠' },
-  { label: 'Fornecedores',  href: '/fornecedores', icon: '🔎' },
-  { label: 'Meus Pedidos',  href: '/pedidos',      icon: '📋' },
-  { label: 'Eventos',       href: '/eventos',      icon: '📅' },
-  { label: 'Pagamentos',    href: '/pagamentos',   icon: '💳' },
+  { label: 'Início',        href: '/dashboard',    icon: 'home' },
+  { label: 'Fornecedores',  href: '/fornecedores', icon: 'search' },
+  { label: 'Meus Pedidos',  href: '/pedidos',      icon: 'clipboard' },
+  { label: 'Eventos',       href: '/eventos',      icon: 'calendar' },
+  { label: 'Pagamentos',    href: '/pagamentos',   icon: 'card' },
 ];
 
 const fornecedorNav: NavItem[] = [
-  { label: 'Início',       href: '/dashboard',      icon: '🏠' },
-  { label: 'Oportunidades',href: '/oportunidades',  icon: '⚡' },
-  { label: 'Recebimentos', href: '/pagamentos',     icon: '💰' },
+  { label: 'Início',       href: '/dashboard',      icon: 'home' },
+  { label: 'Oportunidades',href: '/oportunidades',  icon: 'zap' },
+  { label: 'Recebimentos', href: '/pagamentos',     icon: 'wallet' },
 ];
 
 const adminNav: NavItem[] = [
-  { label: 'Início',       href: '/dashboard',    icon: '🏠' },
-  { label: 'Fornecedores', href: '/fornecedores', icon: '🏢' },
-  { label: 'Pedidos',      href: '/pedidos',      icon: '📋' },
-  { label: 'Pagamentos',   href: '/pagamentos',   icon: '💳' },
+  { label: 'Início',       href: '/dashboard',    icon: 'home' },
+  { label: 'Fornecedores', href: '/fornecedores', icon: 'building' },
+  { label: 'Pedidos',      href: '/pedidos',      icon: 'clipboard' },
+  { label: 'Pagamentos',   href: '/pagamentos',   icon: 'card' },
 ];
 
 export const roleConfigs: Record<string, RoleConfig> = {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import { getPedidos, Pedido } from '../services/store';
+import { getPedidos, seedOnce, Pedido } from '../services/store';
 import { categoryById, formatBRL } from '../services/catalog';
+import Icon, { IconName } from '../components/Icon';
 
 const PLATFORM_FEE = 0.1; // 10% de comissão da plataforma (split automático)
 
@@ -9,6 +10,7 @@ export default function PagamentosPage() {
   const [pagos, setPagos] = useState<Pedido[]>([]);
 
   useEffect(() => {
+    seedOnce();
     const list = getPedidos().filter(
       (p) => (p.status === 'confirmado' || p.status === 'concluido') && p.amount > 0,
     );
@@ -19,10 +21,10 @@ export default function PagamentosPage() {
   const totalTaxa = totalProcessado * PLATFORM_FEE;
   const totalRepasse = totalProcessado - totalTaxa;
 
-  const cards = [
-    { label: 'Total Processado', value: formatBRL(totalProcessado), color: 'text-emerald-600', icon: '💳' },
-    { label: 'Comissão EventHub (10%)', value: formatBRL(totalTaxa), color: 'text-blue-600', icon: '🏦' },
-    { label: 'Repasse a Fornecedores', value: formatBRL(totalRepasse), color: 'text-violet-600', icon: '🔀' },
+  const cards: { label: string; value: string; color: string; icon: IconName }[] = [
+    { label: 'Total Processado', value: formatBRL(totalProcessado), color: 'text-emerald-600', icon: 'card' },
+    { label: 'Comissão EventHub (10%)', value: formatBRL(totalTaxa), color: 'text-blue-600', icon: 'building' },
+    { label: 'Repasse a Fornecedores', value: formatBRL(totalRepasse), color: 'text-violet-600', icon: 'split' },
   ];
 
   return (
@@ -38,7 +40,7 @@ export default function PagamentosPage() {
             <div key={s.label} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
               <div className="flex items-center justify-between">
                 <p className="text-sm text-gray-500">{s.label}</p>
-                <span className="text-xl">{s.icon}</span>
+                <span className={s.color}><Icon name={s.icon} size={20} /></span>
               </div>
               <p className={`text-2xl font-bold mt-2 ${s.color}`}>{s.value}</p>
             </div>
@@ -70,7 +72,9 @@ export default function PagamentosPage() {
                       <tr key={p.id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-2">
-                            <span>{cat?.icon}</span>
+                            <span className={`w-7 h-7 rounded-lg flex items-center justify-center ${cat?.color ?? 'bg-gray-100'}`}>
+                              {cat && <Icon name={cat.icon} size={14} />}
+                            </span>
                             <span className="font-medium text-gray-700">{p.providerName}</span>
                           </div>
                         </td>
@@ -92,7 +96,7 @@ export default function PagamentosPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-            <span className="text-5xl">💳</span>
+            <span className="inline-flex text-gray-300"><Icon name="card" size={44} strokeWidth={1.5} /></span>
             <h3 className="text-lg font-semibold text-gray-700 mt-4">Nenhum pagamento ainda</h3>
             <p className="text-gray-400 text-sm mt-2">
               Contrate um fornecedor (em Pedidos) para gerar uma transação com split automático.

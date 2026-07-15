@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
-import { getPedidos, updatePedidoStatus, Pedido, PedidoStatus } from '../services/store';
+import { getPedidos, updatePedidoStatus, seedOnce, Pedido, PedidoStatus } from '../services/store';
 import { categoryById, providerById, formatBRL } from '../services/catalog';
+import Icon from '../components/Icon';
 
 const filters: { key: string; label: string }[] = [
   { key: 'todos',      label: 'Todos' },
@@ -29,6 +30,7 @@ export default function PedidosPage() {
   }
 
   useEffect(() => {
+    seedOnce();
     refresh();
   }, []);
 
@@ -90,8 +92,8 @@ export default function PedidosPage() {
               return (
                 <div key={p.id} className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
                   <div className="flex items-start gap-4">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shrink-0 ${cat?.color ?? 'bg-gray-100'}`}>
-                      {cat?.icon}
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${cat?.color ?? 'bg-gray-100'}`}>
+                      {cat && <Icon name={cat.icon} size={22} />}
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -103,9 +105,9 @@ export default function PedidosPage() {
                       <p className="text-sm text-gray-500 mt-0.5">{p.eventName}</p>
                       {p.details && <p className="text-sm text-gray-400 mt-2">{p.details}</p>}
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400">
-                        {p.date && <span>📅 {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
-                        {p.guests > 0 && <span>👥 {p.guests} convidados</span>}
-                        <span>💬 {p.proposals} proposta(s) recebida(s)</span>
+                        {p.date && <span className="inline-flex items-center gap-1"><Icon name="calendar" size={13} /> {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
+                        {p.guests > 0 && <span className="inline-flex items-center gap-1"><Icon name="users" size={13} /> {p.guests} convidados</span>}
+                        <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals} proposta(s) recebida(s)</span>
                         {p.amount > 0 && <span className="text-gray-700 font-semibold">{formatBRL(p.amount)}</span>}
                       </div>
                     </div>
@@ -146,7 +148,7 @@ export default function PedidosPage() {
                       </>
                     )}
                     {p.status === 'concluido' && (
-                      <span className="text-sm text-gray-400">✓ Serviço concluído</span>
+                      <span className="inline-flex items-center gap-1.5 text-sm text-gray-400"><Icon name="check-circle" size={15} /> Serviço concluído</span>
                     )}
                     {p.status === 'cancelado' && (
                       <button
@@ -163,7 +165,7 @@ export default function PedidosPage() {
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
-            <span className="text-5xl">📋</span>
+            <span className="inline-flex text-gray-300"><Icon name="clipboard" size={44} strokeWidth={1.5} /></span>
             <h3 className="text-lg font-semibold text-gray-700 mt-4">Nenhum pedido aqui</h3>
             <p className="text-gray-400 text-sm mt-2">Solicite um orçamento na vitrine de fornecedores.</p>
             <button

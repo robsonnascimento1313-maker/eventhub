@@ -1,10 +1,12 @@
 // Catálogo de fornecedores do marketplace (modo demo).
 // Dados estáticos que dão vida à vitrine — inspirado em GetNinjas / Mercado Livre.
 
+import { IconName } from '../components/Icon';
+
 export interface Category {
   id: string;
   name: string;
-  icon: string;
+  icon: IconName;
   color: string; // classes tailwind para o avatar/badge
 }
 
@@ -24,13 +26,13 @@ export interface Provider {
 }
 
 export const categories: Category[] = [
-  { id: 'buffet',      name: 'Buffet',            icon: '🍽️', color: 'bg-amber-100 text-amber-700' },
-  { id: 'som',         name: 'Som e Iluminação',  icon: '🎵', color: 'bg-violet-100 text-violet-700' },
-  { id: 'decoracao',   name: 'Decoração',         icon: '🎨', color: 'bg-pink-100 text-pink-700' },
-  { id: 'fotografia',  name: 'Fotografia',        icon: '📸', color: 'bg-sky-100 text-sky-700' },
-  { id: 'seguranca',   name: 'Segurança',         icon: '🛡️', color: 'bg-slate-200 text-slate-700' },
-  { id: 'transporte',  name: 'Transporte',        icon: '🚐', color: 'bg-emerald-100 text-emerald-700' },
-  { id: 'espaco',      name: 'Espaços',           icon: '🏛️', color: 'bg-indigo-100 text-indigo-700' },
+  { id: 'buffet',      name: 'Buffet',            icon: 'utensils', color: 'bg-amber-100 text-amber-700' },
+  { id: 'som',         name: 'Som e Iluminação',  icon: 'music',    color: 'bg-violet-100 text-violet-700' },
+  { id: 'decoracao',   name: 'Decoração',         icon: 'palette',  color: 'bg-pink-100 text-pink-700' },
+  { id: 'fotografia',  name: 'Fotografia',        icon: 'camera',   color: 'bg-sky-100 text-sky-700' },
+  { id: 'seguranca',   name: 'Segurança',         icon: 'shield',   color: 'bg-slate-200 text-slate-700' },
+  { id: 'transporte',  name: 'Transporte',        icon: 'truck',    color: 'bg-emerald-100 text-emerald-700' },
+  { id: 'espaco',      name: 'Espaços',           icon: 'landmark', color: 'bg-indigo-100 text-indigo-700' },
 ];
 
 export const providers: Provider[] = [
