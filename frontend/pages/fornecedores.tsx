@@ -86,7 +86,7 @@ export default function FornecedoresPage() {
           >
             <Icon name="bolt" size={13} filled strokeWidth={0} /> Resposta rápida
           </button>
-          <span className="shrink-0 w-px bg-gray-200 my-1" />
+          <span className="shrink-0 w-px bg-edge my-1" />
           <button
             onClick={() => setActiveCat('todos')}
             className={`shrink-0 px-4 py-1.5 rounded-full text-[13px] font-semibold transition ${
@@ -129,8 +129,10 @@ export default function FornecedoresPage() {
         {/* Grid de fornecedores */}
         {list.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {list.map((p) => (
-              <ProviderCard key={p.id} provider={p} onSolicitar={setSelected} />
+            {list.map((p, i) => (
+              <div key={p.id} className="animate-up" style={{ animationDelay: `${Math.min(i, 8) * 45}ms` }}>
+                <ProviderCard provider={p} onSolicitar={setSelected} />
+              </div>
             ))}
           </div>
         ) : (

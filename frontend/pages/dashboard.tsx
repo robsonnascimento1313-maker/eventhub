@@ -42,7 +42,7 @@ function EmpresaDashboard({ user }: { user: User | null }) {
 
   return (
     <>
-      <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-700 p-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-2xl bg-gradient-to-r from-primary-600 to-primary-700 p-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 glow-violet animate-up">
         <div>
           <h2 className="text-white text-lg font-bold">Precisa de um serviço para seu evento?</h2>
           <p className="text-primary-100 text-sm mt-1">Compare fornecedores e receba orçamentos em minutos.</p>
@@ -131,7 +131,7 @@ function FornecedorDashboard() {
 
   return (
     <>
-      <div className="rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 p-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-2xl bg-gradient-to-r from-amber-500 to-orange-600 p-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-up" style={{ boxShadow: '0 18px 60px -20px rgba(234,88,12,.5)' }}>
         <div>
           <h2 className="text-white text-lg font-bold">
             {abertas.length > 0 ? `${abertas.length} novo(s) lead(s) esperando sua proposta` : 'Nenhum lead aberto no momento'}

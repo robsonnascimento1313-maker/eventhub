@@ -42,8 +42,8 @@ export default function ProviderCard({ provider, onSolicitar }: Props) {
   return (
     <div
       onClick={() => router.push(`/fornecedor/${provider.id}`)}
-      className={`group bg-surface rounded-2xl border shadow-card hover:shadow-card-hover transition-all duration-200 flex flex-col overflow-hidden cursor-pointer ${
-        top ? 'border-amber-400/25' : 'border-edge hover:border-primary-200'
+      className={`group bg-surface rounded-2xl border shadow-card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 flex flex-col overflow-hidden cursor-pointer ${
+        top ? 'border-amber-400/25 hover:border-amber-400/50' : 'border-edge hover:border-primary-500/50'
       }`}
     >
       <div className="p-5 flex-1">
@@ -62,7 +62,7 @@ export default function ProviderCard({ provider, onSolicitar }: Props) {
             {category && <Icon name={category.icon} size={22} />}
           </div>
           <div className="min-w-0">
-            <h3 className="font-bold text-[15px] text-gray-50 truncate leading-snug group-hover:text-primary-700 transition-colors">
+            <h3 className="font-bold text-[15px] text-gray-50 truncate leading-snug group-hover:text-primary-300 transition-colors">
               {provider.name}
             </h3>
             <p className="text-xs text-gray-400 mt-0.5">

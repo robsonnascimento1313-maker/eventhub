@@ -50,7 +50,7 @@ export default function ProviderProfilePage() {
               <div className="flex items-center gap-2 flex-wrap">
                 <h1 className="text-2xl font-bold text-gray-50">{provider.name}</h1>
                 {provider.verified && (
-                  <span className="inline-flex items-center gap-1 text-xs bg-primary-50 text-primary-700 px-2 py-0.5 rounded-full font-semibold border border-primary-100">
+                  <span className="inline-flex items-center gap-1 text-xs bg-primary-400/10 text-primary-300 px-2 py-0.5 rounded-full font-semibold border border-primary-400/20">
                     <Icon name="check" size={12} strokeWidth={3} /> Verificado
                   </span>
                 )}
