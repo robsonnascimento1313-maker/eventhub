@@ -260,9 +260,29 @@ export function coordsFor(p: Provider): [number, number] {
   return COORDS[p.id] ?? [-23.55, -46.63];
 }
 
-// Foto de exemplo (placeholder determinístico e estável por fornecedor).
+// Palavras-chave temáticas por fornecedor — a foto combina com o serviço.
+const PHOTO_TAGS: Record<string, string> = {
+  p1: 'catering,buffet',     // Sabor & Cia Buffet
+  p2: 'catering,gourmet',    // Gourmet Eventos
+  p3: 'catering,brunch',     // Bella Mesa Catering
+  p4: 'concert,soundstage',  // SoundPro Áudio
+  p5: 'stage,lighting',      // LuzShow Cenografia
+  p6: 'event,decoration',    // Decorart Ambientes
+  p7: 'flowers,bouquet',     // Marina Flores
+  p8: 'photographer,camera', // Click Memórias
+  p9: 'photographer,camera', // Rafael Lente
+  p10: 'security,guard',     // Guardian Segurança
+  p11: 'security,guard',     // Carlos Vigi
+  p12: 'bus,coach',          // TransVip Fretamento
+  p13: 'van,minibus',        // Pedro Transfer
+  p14: 'ballroom,venue',     // Espaço Villa Real
+};
+
+// Foto temática e estável por fornecedor (LoremFlickr por palavra-chave).
 export function photoFor(p: Provider): string {
-  return `https://picsum.photos/seed/eventhub-${p.id}/640/420`;
+  const tags = PHOTO_TAGS[p.id] ?? 'event';
+  const lock = Number(p.id.replace('p', '')) || 1;
+  return `https://loremflickr.com/640/420/${tags}?lock=${lock}`;
 }
 
 export function categoryById(id: string): Category | undefined {
