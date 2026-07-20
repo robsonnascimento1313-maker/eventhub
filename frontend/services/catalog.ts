@@ -247,6 +247,24 @@ export function reviewsFor(provider: Provider): Review[] {
   })).filter((_, i) => (seed + i) % 7 !== 6);
 }
 
+// Coordenadas (lat, lng) para os pins do mapa — região metropolitana de SP.
+const COORDS: Record<string, [number, number]> = {
+  p1: [-23.561, -46.656], p2: [-22.905, -47.060], p3: [-22.906, -43.172],
+  p4: [-23.550, -46.633], p5: [-23.454, -46.533], p6: [-23.588, -46.632],
+  p7: [-23.663, -46.538], p8: [-23.533, -46.625], p9: [-23.532, -46.792],
+  p10: [-23.570, -46.640], p11: [-23.510, -46.876], p12: [-23.545, -46.644],
+  p13: [-23.463, -46.533], p14: [-23.600, -46.680],
+};
+
+export function coordsFor(p: Provider): [number, number] {
+  return COORDS[p.id] ?? [-23.55, -46.63];
+}
+
+// Foto de exemplo (placeholder determinístico e estável por fornecedor).
+export function photoFor(p: Provider): string {
+  return `https://picsum.photos/seed/eventhub-${p.id}/640/420`;
+}
+
 export function categoryById(id: string): Category | undefined {
   return categories.find((c) => c.id === id);
 }

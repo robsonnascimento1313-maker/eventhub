@@ -1,10 +1,12 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import Sidebar from './Sidebar';
+import Topbar from './Topbar';
 import { getSession } from '../services/auth';
 
 interface LayoutProps {
   children: React.ReactNode;
+  /** Marketplace usa largura total (grid + mapa); páginas normais ficam contidas. */
+  full?: boolean;
 }
 
 export default function Layout({ children }: LayoutProps) {
@@ -18,11 +20,9 @@ export default function Layout({ children }: LayoutProps) {
   }, [router]);
 
   return (
-    <div className="flex min-h-screen bg-ground">
-      <Sidebar />
-      <main className="flex-1 overflow-auto">
-        {children}
-      </main>
+    <div className="min-h-screen flex flex-col bg-ground">
+      <Topbar />
+      <main className="flex-1 min-h-0">{children}</main>
     </div>
   );
 }

@@ -3,7 +3,7 @@ import {
   Home, Search, ClipboardList, Calendar, CreditCard, Wallet, Zap, Building2,
   Star, MapPin, Users, MessageCircle, Check, CheckCircle2, Mail, DollarSign,
   TrendingUp, ArrowRight, Plus, X, LogOut, Utensils, Music, Palette, Camera,
-  Shield, Truck, Landmark, Briefcase, User, Split,
+  Shield, Truck, Landmark, Briefcase, User, Split, Heart, SlidersHorizontal,
 } from 'lucide-react';
 
 // Adaptador sobre a Lucide (ícones profissionais, mesmo set da Linear/Shadcn).
@@ -13,7 +13,7 @@ export type IconName =
   | 'building' | 'star' | 'pin' | 'users' | 'message' | 'check' | 'check-circle'
   | 'mail' | 'dollar' | 'trending' | 'arrow-right' | 'plus' | 'x' | 'logout'
   | 'utensils' | 'music' | 'palette' | 'camera' | 'shield' | 'truck' | 'landmark'
-  | 'bolt' | 'briefcase' | 'user' | 'split';
+  | 'bolt' | 'briefcase' | 'user' | 'split' | 'heart' | 'filters';
 
 const MAP: Record<IconName, React.ComponentType<any>> = {
   home: Home,
@@ -48,6 +48,8 @@ const MAP: Record<IconName, React.ComponentType<any>> = {
   shield: Shield,
   truck: Truck,
   landmark: Landmark,
+  heart: Heart,
+  filters: SlidersHorizontal,
 };
 
 interface IconProps {
