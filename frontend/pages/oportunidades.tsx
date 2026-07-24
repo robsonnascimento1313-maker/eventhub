@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { getSession } from '../services/auth';
-import { getPedidos, enviarProposta, seedOnce, Pedido } from '../services/store';
+import {
+  getPedidos, enviarProposta, seedOnce, Pedido,
+  isLeadOpen, proposalsLeft, timeAgo, MAX_PROPOSALS,
+} from '../services/store';
 import { categoryById, formatBRL } from '../services/catalog';
 import Icon from '../components/Icon';
 
@@ -13,7 +16,8 @@ export default function OportunidadesPage() {
   const [toast, setToast] = useState('');
 
   function refresh() {
-    setPedidos(getPedidos().filter((p) => p.status === 'pendente'));
+    // "Leads Justos": só leads abertos (pendentes, no prazo e com vaga).
+    setPedidos(getPedidos().filter(isLeadOpen));
   }
 
   useEffect(() => {
@@ -25,10 +29,12 @@ export default function OportunidadesPage() {
   function handleSend(e: React.FormEvent) {
     e.preventDefault();
     if (!active) return;
-    enviarProposta(active.id, Number(price) || 0);
+    const ok = enviarProposta(active.id, Number(price) || 0);
     setActive(null);
     setPrice('');
-    setToast('✅ Proposta enviada! A empresa vai comparar e responder.');
+    setToast(ok
+      ? '✅ Proposta enviada! A empresa vai comparar e responder.'
+      : '⚠️ Este lead acabou de fechar (limite de propostas atingido).');
     setTimeout(() => setToast(''), 4000);
     refresh();
   }
@@ -36,11 +42,27 @@ export default function OportunidadesPage() {
   return (
     <Layout>
       <div className="p-8">
-        <div className="mb-6">
+        <div className="mb-5">
           <h1 className="text-2xl font-bold text-gray-50">Oportunidades</h1>
           <p className="text-gray-400 mt-1">
             Leads de empresas prontas para contratar. Responda rápido para ganhar o contrato.
           </p>
+        </div>
+
+        {/* Regras "Leads Justos" — nosso diferencial vs. o modelo de moedas */}
+        <div className="mb-6 flex flex-wrap gap-x-5 gap-y-2 text-xs text-gray-300 bg-surface border border-edge rounded-xl px-4 py-3">
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="check-circle" size={14} className="text-emerald-400" />
+            Responder é <b className="text-gray-100">grátis</b> — só paga 10% se fechar
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="users" size={14} className="text-primary-300" />
+            Máx. <b className="text-gray-100">{MAX_PROPOSALS} propostas</b> por lead
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Icon name="bolt" size={14} filled strokeWidth={0} className="text-amber-400" />
+            Leads expiram em 72h — sem lead "morto"
+          </span>
         </div>
 
         {role && role !== 'fornecedor' && (
@@ -63,11 +85,21 @@ export default function OportunidadesPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
                         <h3 className="font-bold text-gray-50 truncate">{p.eventName}</h3>
-                        <span className="shrink-0 text-xs bg-amber-400/10 text-amber-300 px-2 py-1 rounded-full font-bold">
-                          Novo lead
-                        </span>
+                        {(() => {
+                          const left = proposalsLeft(p);
+                          const scarce = left <= 2;
+                          return (
+                            <span className={`shrink-0 text-xs px-2 py-1 rounded-full font-bold ${
+                              scarce ? 'bg-rose-500/15 text-rose-300' : 'bg-emerald-400/10 text-emerald-300'
+                            }`}>
+                              {left} vaga{left !== 1 ? 's' : ''} restante{left !== 1 ? 's' : ''}
+                            </span>
+                          );
+                        })()}
                       </div>
-                      <p className="text-xs text-gray-400 mt-0.5">{cat?.name}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {cat?.name} · <span className="text-gray-500">postado {timeAgo(p.createdAt)}</span>
+                      </p>
                     </div>
                   </div>
 
@@ -76,7 +108,7 @@ export default function OportunidadesPage() {
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400">
                     {p.date && <span className="inline-flex items-center gap-1"><Icon name="calendar" size={13} /> {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
                     {p.guests > 0 && <span className="inline-flex items-center gap-1"><Icon name="users" size={13} /> {p.guests} convidados</span>}
-                    <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals} concorrente(s)</span>
+                    <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals}/{MAX_PROPOSALS} propostas</span>
                   </div>
 
                   <button

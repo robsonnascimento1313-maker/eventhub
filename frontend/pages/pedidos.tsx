@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
-import { getPedidos, updatePedidoStatus, seedOnce, Pedido, PedidoStatus } from '../services/store';
+import { getPedidos, updatePedidoStatus, seedOnce, Pedido, PedidoStatus, MAX_PROPOSALS, timeAgo } from '../services/store';
 import { categoryById, providerById, formatBRL } from '../services/catalog';
 import Icon from '../components/Icon';
 
@@ -107,7 +107,8 @@ export default function PedidosPage() {
                       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-xs text-gray-400">
                         {p.date && <span className="inline-flex items-center gap-1"><Icon name="calendar" size={13} /> {new Date(p.date).toLocaleDateString('pt-BR')}</span>}
                         {p.guests > 0 && <span className="inline-flex items-center gap-1"><Icon name="users" size={13} /> {p.guests} convidados</span>}
-                        <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals} proposta(s) recebida(s)</span>
+                        <span className="inline-flex items-center gap-1"><Icon name="message" size={13} /> {p.proposals}/{MAX_PROPOSALS} propostas</span>
+                        {p.status === 'pendente' && <span className="text-gray-500">solicitado {timeAgo(p.createdAt)}</span>}
                         {p.amount > 0 && <span className="text-gray-200 font-semibold">{formatBRL(p.amount)}</span>}
                       </div>
                     </div>
@@ -129,6 +130,9 @@ export default function PedidosPage() {
                         >
                           Cancelar
                         </button>
+                        <span className="inline-flex items-center gap-1.5 text-xs text-gray-500 self-center">
+                          <Icon name="check-circle" size={13} /> Aceitar fecha o pedido para novas propostas
+                        </span>
                       </>
                     )}
                     {p.status === 'confirmado' && (

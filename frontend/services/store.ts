@@ -33,6 +33,42 @@ const PEDIDOS_KEY = 'eventhub_pedidos';
 const EVENTOS_KEY = 'eventhub_eventos';
 const SEED_KEY = 'eventhub_seeded';
 
+// --- Regras "Leads Justos" (anti-modelo GetNinjas) ---
+// Ao contrário de vender o mesmo lead para infinitos profissionais, aqui cada
+// pedido aceita um número limitado de propostas e expira se ficar velho — o
+// fornecedor nunca gasta tempo com lead "morto" ou disputado por dezenas.
+export const MAX_PROPOSALS = 4;
+export const LEAD_EXPIRY_HOURS = 72;
+
+export function hoursSince(iso: string): number {
+  return (Date.now() - new Date(iso).getTime()) / 36e5;
+}
+
+export function timeAgo(iso: string): string {
+  const h = hoursSince(iso);
+  if (h < 1) return `há ${Math.max(1, Math.round(h * 60))} min`;
+  if (h < 24) return `há ${Math.round(h)} h`;
+  const d = Math.round(h / 24);
+  return `há ${d} dia${d > 1 ? 's' : ''}`;
+}
+
+export function isLeadExpired(p: Pedido): boolean {
+  return p.status === 'pendente' && hoursSince(p.createdAt) > LEAD_EXPIRY_HOURS;
+}
+
+export function isLeadFull(p: Pedido): boolean {
+  return p.proposals >= MAX_PROPOSALS;
+}
+
+/** Lead ainda aceita novas propostas? (pendente, no prazo e com vaga) */
+export function isLeadOpen(p: Pedido): boolean {
+  return p.status === 'pendente' && !isLeadExpired(p) && !isLeadFull(p);
+}
+
+export function proposalsLeft(p: Pedido): number {
+  return Math.max(0, MAX_PROPOSALS - p.proposals);
+}
+
 function read<T>(key: string): T[] {
   if (typeof window === 'undefined') return [];
   try {
@@ -77,6 +113,12 @@ export function seedOnce(): void {
       details: 'Cenografia com identidade visual da empresa.',
       status: 'pendente', proposals: 2, amount: 0, createdAt: new Date(Date.now() - 1 * 864e5).toISOString(),
     },
+    {
+      id: uid(), providerId: 'p4', providerName: 'SoundPro Áudio', categoryId: 'som',
+      eventName: 'Happy Hour de Integração', date: '2026-08-05', guests: 120,
+      details: 'Som e iluminação para happy hour em rooftop, das 18h à meia-noite.',
+      status: 'pendente', proposals: 1, amount: 0, createdAt: new Date(Date.now() - 3 * 36e5).toISOString(),
+    },
   ];
 
   write(EVENTOS_KEY, eventos);
@@ -112,11 +154,16 @@ export function updatePedidoStatus(id: string, status: PedidoStatus, amount?: nu
 }
 
 // Lado do FORNECEDOR: responde a um lead com uma proposta de preço.
-export function enviarProposta(id: string, amount: number): void {
-  const all = read<Pedido>(PEDIDOS_KEY).map((p) =>
+// Respeita o teto de propostas e a expiração — retorna false se o lead fechou.
+export function enviarProposta(id: string, amount: number): boolean {
+  const all = read<Pedido>(PEDIDOS_KEY);
+  const alvo = all.find((p) => p.id === id);
+  if (!alvo || !isLeadOpen(alvo)) return false;
+  const updated = all.map((p) =>
     p.id === id ? { ...p, amount, proposals: p.proposals + 1 } : p,
   );
-  write(PEDIDOS_KEY, all);
+  write(PEDIDOS_KEY, updated);
+  return true;
 }
 
 // ---------- Eventos ----------
